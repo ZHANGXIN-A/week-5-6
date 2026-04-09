@@ -37,3 +37,36 @@ X_train, X_valid, y_train, y_valid = train_test_split(
 print("X_train shape:", X_train.shape)
 print("X_valid shape:", X_valid.shape)
 print("X_test shape:", X_test.shape)
+
+
+def evaluate_model(model, X_data, y_true, name="Dataset"):
+    y_pred = model.predict(X_data)
+    y_prob = model.predict_proba(X_data)[:, 1]
+
+    acc = accuracy_score(y_true, y_pred)
+    f1 = f1_score(y_true, y_pred)
+    roc = roc_auc_score(y_true, y_prob)
+
+    print(f"\n[{name}]")
+    print(f"Accuracy: {acc:.4f}")
+    print(f"F1-score: {f1:.4f}")
+    print(f"ROC-AUC: {roc:.4f}")
+
+    return acc, f1, roc
+
+
+from sklearn.ensemble import RandomForestClassifier
+
+# Random Forest baseline
+rf = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=5,
+    random_state=42
+)
+
+# train
+rf.fit(X_train, y_train)
+
+# validation evaluation
+print("\n===== Random Forest (Validation) =====")
+evaluate_model(rf, X_valid, y_valid, "Validation")
