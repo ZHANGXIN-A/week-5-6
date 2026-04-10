@@ -228,3 +228,13 @@ lgbm.fit(X_train, y_train)
 
 print("\n===== LightGBM (Validation) =====")
 lgbm_valid_result = evaluate_model(lgbm, X_valid, y_valid, "Validation")
+print("\n===== Random Forest (Test) =====")
+
+#test
+evaluate_model(rf, X_test, y_test, "Test")
+
+print("\n===== XGBoost Early Stopping (Test) =====")
+evaluate_model(xgb_es, X_test, y_test, "Test")
+
+print("\n===== LightGBM (Test) =====")
+evaluate_model(lgbm, X_test, y_test, "Test")

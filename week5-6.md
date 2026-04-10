@@ -1,5 +1,16 @@
 # Week05-06 HW03 — Tree Ensemble to Boosting
 
+## Pre-submission Checklist
+
+[ok] Dataset description included
+[ok]Train / validation / test structure clearly defined
+[ok]Random Forest, XGBoost, and LightGBM compared
+[ok]At least two hyperparameters tuned
+[ok]Early stopping applied
+[ok]Final model selection rationale provided
+
+---
+
 ## 1. Dataset Introduction
 
 Dataset: Titanic
@@ -19,7 +30,7 @@ Metrics: Accuracy, F1-score, ROC-AUC
 
 The dataset was split into training, validation, and test sets.
 The validation set was used for hyperparameter tuning and early stopping,
-while the test set is reserved for final evaluation.
+while the test set was reserved for final evaluation.
 
 ---
 
@@ -33,7 +44,7 @@ while the test set is reserved for final evaluation.
 | XGBoost       | 0.8657   | 0.8235   | 0.9145  |
 | LightGBM      | 0.8806   | 0.8491   | 0.9219  |
 
-LightGBM achieved the best baseline performance among the three models,
+LightGBM achieved the best baseline validation performance among the three models,
 followed by XGBoost and Random Forest.
 
 ---
@@ -97,44 +108,60 @@ After applying early stopping, the model performance improved:
 * F1-score: 0.8269 → 0.8350
 * ROC-AUC: 0.9162 → 0.9191
 
-This shows that early stopping helped the model generalize better.
+This shows that early stopping helped the model generalize better on the validation set.
 
 ---
 
-## 6. Final Model Comparison
+## 6. Final Validation Comparison
 
-| Model                  | Accuracy   | F1-score   | ROC-AUC    |
-| ---------------------- | ---------- | ---------- | ---------- |
-| Random Forest          | 0.8582     | 0.8041     | 0.9206     |
-| XGBoost                | 0.8657     | 0.8235     | 0.9145     |
-| **LightGBM (Best)**    | **0.8806** | **0.8491** | **0.9219** |
-| XGBoost Tuned          | 0.8657     | 0.8269     | 0.9162     |
-| XGBoost Early Stopping | 0.8731     | 0.8350     | 0.9191     |
+| Model                             | Accuracy   | F1-score   | ROC-AUC    |
+| --------------------------------- | ---------- | ---------- | ---------- |
+| Random Forest                     | 0.8582     | 0.8041     | 0.9206     |
+| XGBoost                           | 0.8657     | 0.8235     | 0.9145     |
+| **LightGBM (Best on Validation)** | **0.8806** | **0.8491** | **0.9219** |
+| XGBoost Tuned                     | 0.8657     | 0.8269     | 0.9162     |
+| XGBoost Early Stopping            | 0.8731     | 0.8350     | 0.9191     |
 
 ---
 
-## 7. Analysis
+## 7. Final Test Evaluation
+
+| Model                      | Accuracy   | F1-score   | ROC-AUC    |
+| -------------------------- | ---------- | ---------- | ---------- |
+| **Random Forest**          | **0.7761** | 0.6429     | **0.8110** |
+| **XGBoost Early Stopping** | 0.7612     | **0.6596** | 0.7777     |
+| LightGBM                   | 0.7537     | 0.6526     | 0.7783     |
+
+On the held-out test set, Random Forest achieved the best Accuracy and ROC-AUC,
+while XGBoost Early Stopping achieved the best F1-score.
+LightGBM, although strongest on the validation set, showed lower generalization performance on the test set.
+
+---
+
+## 8. Analysis
 
 Random Forest is based on bagging and builds trees independently,
-while boosting models build trees sequentially to correct errors.
-In this experiment, boosting models generally performed better.
+while boosting models build trees sequentially to correct previous errors.
+In the validation results, boosting models generally performed better.
 
-LightGBM achieved the best baseline performance.
-However, after tuning and early stopping, XGBoost improved significantly.
+LightGBM achieved the best validation performance,
+and XGBoost improved after tuning and early stopping.
 
-Early stopping helped improve performance and reduce overfitting.
+However, the final test results show that the best validation model
+did not necessarily produce the best generalization performance.
+Random Forest achieved the best test Accuracy and ROC-AUC,
+which suggests that it was more stable on unseen data in this experiment.
 
-The final selected model is LightGBM because it achieved the highest
-validation ROC-AUC and F1-score among baseline models.
+Early stopping improved XGBoost on the validation set,
+and it also achieved the highest test F1-score among the tested final models.
 
 ---
 
-## 8. Final Model Selection
+## 9. Final Model Selection
 
-LightGBM achieved the highest validation performance among baseline models,
-with the best F1-score (0.8491) and ROC-AUC (0.9219).
+Based on the validation set, LightGBM was the strongest model during model comparison.
+However, based on the held-out test set, Random Forest achieved the best overall generalization performance,
+with the highest Accuracy (0.7761) and ROC-AUC (0.8110).
 
-Although XGBoost improved after tuning and early stopping,
-LightGBM still maintained the strongest overall performance.
-
-Therefore, LightGBM was selected as the final model.
+Therefore, Random Forest can be considered the final model in terms of test performance,
+while LightGBM can be regarded as the best validation model.
