@@ -178,7 +178,20 @@ xgb.fit(X_train, y_train)
 print("\n===== XGBoost (Validation) =====")
 xgb_valid_result = evaluate_model(xgb, X_valid, y_valid, "Validation")
 
+# 7. XGBoost tuned
+xgb_tuned = XGBClassifier(
+    n_estimators=500,
+    learning_rate=0.03,
+    max_depth=4,
+    subsample=0.9,
+    random_state=42,
+    eval_metric="logloss"
+)
 
+xgb_tuned.fit(X_train, y_train)
+
+print("\n===== XGBoost Tuned (Validation) =====")
+xgb_tuned_valid_result = evaluate_model(xgb_tuned, X_valid, y_valid, "Validation")
 
 
 # 8. LightGBM baseline
