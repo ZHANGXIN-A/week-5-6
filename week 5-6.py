@@ -192,6 +192,26 @@ xgb_tuned.fit(X_train, y_train)
 
 print("\n===== XGBoost Tuned (Validation) =====")
 xgb_tuned_valid_result = evaluate_model(xgb_tuned, X_valid, y_valid, "Validation")
+# 7. XGBoost with Early Stopping
+xgb_es = XGBClassifier(
+    n_estimators=1000,
+    learning_rate=0.03,
+    max_depth=4,
+    subsample=0.9,
+    random_state=42,
+    eval_metric="logloss",
+    early_stopping_rounds=30
+)
+
+xgb_es.fit(
+    X_train,
+    y_train,
+    eval_set=[(X_valid, y_valid)],
+    verbose=False
+)
+
+print("\n===== XGBoost Early Stopping (Validation) =====")
+xgb_es_valid_result = evaluate_model(xgb_es, X_valid, y_valid, "Validation")
 
 
 # 8. LightGBM baseline

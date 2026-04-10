@@ -51,3 +51,29 @@ The following parameters were adjusted:
 After tuning, the performance slightly improved.  
 The F1-score increased from 0.8235 to 0.8269 and ROC-AUC increased from 0.9145 to 0.9162.  
 This indicates that hyperparameter tuning helped improve model generalization.
+### Validation Results
+
+| Model | Accuracy | F1-score | ROC-AUC |
+|------|----------|---------|--------|
+| Random Forest | 0.8582 | 0.8041 | 0.9206 |
+| XGBoost | 0.8657 | 0.8235 | 0.9145 |
+| LightGBM | 0.8806 | 0.8491 | 0.9219 |
+| XGBoost Tuned | 0.8657 | 0.8269 | 0.9162 |
+| XGBoost Early Stopping | 0.8731 | 0.8350 | 0.9191 |
+## 5. Early Stopping
+
+Early stopping was applied to the tuned XGBoost model.
+
+The model was trained with a large number of estimators (1000),
+but training stopped automatically when validation performance
+did not improve for 30 rounds.
+
+This helps prevent overfitting and reduces unnecessary training.
+
+After applying early stopping, the model performance improved:
+
+- Accuracy: 0.8657 → 0.8731
+- F1-score: 0.8269 → 0.8350
+- ROC-AUC: 0.9162 → 0.9191
+
+This shows that early stopping helped the model generalize better.
